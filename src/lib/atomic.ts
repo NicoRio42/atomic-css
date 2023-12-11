@@ -73,16 +73,18 @@ export function generateCssString() {
         // @ts-ignore
         return `@media (min-width: ${BREAKPOINTS[key]}) {${Object.entries(
           values as Partial<Record<keyof CSSStyleDeclaration, string[]>>
-        ).map(([breackpointKey, breackpointValues]) => {
-          return (breackpointValues as string[])
-            .map(
-              (value) =>
-                `.${key}-${breackpointKey}-${escapeCss(value)}{${camelToKebab(
-                  breackpointKey
-                )}:${value};}`
-            )
-            .join("");
-        })}}`;
+        )
+          .map(([breackpointKey, breackpointValues]) => {
+            return (breackpointValues as string[])
+              .map(
+                (value) =>
+                  `.${key}-${breackpointKey}-${escapeCss(value)}{${camelToKebab(
+                    breackpointKey
+                  )}:${value};}`
+              )
+              .join("");
+          })
+          .join("")}}`;
       }
 
       return (values as string[])
@@ -99,8 +101,7 @@ export function generateCssString() {
 }
 
 type CssObject = Partial<
-  CSSStyleDeclaration &
-    Record<
+  CSSStyleDeclaration & { color: "green" | "blue" | "#123456" } & Record<
       (typeof PSEUDO_CLASS_IDENTIFIERS)[number],
       Partial<CSSStyleDeclaration>
     > &
